@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Exclude, Expose } from 'class-transformer';
-import { FieldOptions } from '@nestjs/graphql/dist/decorators/field.decorator';
+import { Exclude } from 'class-transformer';
 
 export enum MessageType {
   'all' = 'all',
