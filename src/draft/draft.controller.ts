@@ -1,6 +1,8 @@
-import { Controller, Get, Put } from '@nestjs/common';
+import { Controller, Get, Put, Req } from '@nestjs/common';
 import { DraftService } from './draft.service';
 import { DraftEntity } from './draft.entity';
+import { Request } from 'express';
+import { Result } from '../common/http/Result';
 
 @Controller('draft')
 export class DraftController {
@@ -12,7 +14,7 @@ export class DraftController {
   }
 
   @Put()
-  put(): Promise<DraftEntity> {
-    return this.draftService.put();
+  put(@Req() request: Request): Promise<Result> {
+    return this.draftService.put(request);
   }
 }
