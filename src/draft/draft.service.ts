@@ -8,6 +8,7 @@ import patch from 'src/common/http/patch';
 import { Request } from 'express';
 import { instanceToPlain } from 'class-transformer';
 import versions from 'src/common/http/versions';
+import byVersion from 'src/common/http/byVersion';
 
 @Injectable()
 export class DraftService {
@@ -15,10 +16,6 @@ export class DraftService {
     @Inject(Constants.DRAFT_REPOSITORY)
     private draftRepository: Repository<DraftEntity>,
   ) {}
-
-  async findAll(): Promise<DraftEntity[]> {
-    return this.draftRepository.find();
-  }
 
   async put(request: Request): Promise<Result> {
     const result = new Result();
@@ -98,6 +95,17 @@ export class DraftService {
         order: { version: 'DESC' },
       })
       .then((draftEntity) => draftEntity.map((de) => de.version));
+  }
+
+  async byVersion(request: Request): Promise<DraftEntity> {
+    const parameters: byVersion = DraftService.parseParameters(request);
+    return await this.draftRepository.findOne({
+      where: {
+        user: parameters.user,
+        asGuid: parameters.asGuid,
+        version: parameters.version,
+      },
+    });
   }
 
   private static parseParameters(request: Request) {

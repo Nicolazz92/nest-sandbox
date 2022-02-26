@@ -8,11 +8,6 @@ import { Result } from '../common/http/Result';
 export class DraftController {
   constructor(private readonly draftService: DraftService) {}
 
-  @Get('all')
-  findAll(): Promise<DraftEntity[]> {
-    return this.draftService.findAll();
-  }
-
   @Put()
   put(@Req() request: Request): Promise<Result> {
     return this.draftService.put(request);
@@ -26,5 +21,10 @@ export class DraftController {
   @Get('versions')
   versions(@Req() request: Request): Promise<number[]> {
     return this.draftService.versions(request);
+  }
+
+  @Get('by-version')
+  byVersion(@Req() request: Request): Promise<DraftEntity> {
+    return this.draftService.byVersion(request);
   }
 }
