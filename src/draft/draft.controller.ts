@@ -27,4 +27,9 @@ export class DraftController {
   byVersion(@Req() request: Request): Promise<DraftEntity> {
     return this.draftService.byVersion(request);
   }
+
+  @Get('last')
+  last(@Req() request: Request): Promise<DraftEntity> {
+    return this.draftService.last(request);
+  }
 }

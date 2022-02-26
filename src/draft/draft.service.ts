@@ -108,6 +108,17 @@ export class DraftService {
     });
   }
 
+  async last(request: Request): Promise<DraftEntity> {
+    const parameters: versions = DraftService.parseParameters(request);
+    return await this.draftRepository.findOne({
+      where: {
+        user: parameters.user,
+        asGuid: parameters.asGuid,
+      },
+      order: { version: 'DESC' },
+    });
+  }
+
   private static parseParameters(request: Request) {
     let parameterStr;
     if (
