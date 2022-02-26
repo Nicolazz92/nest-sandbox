@@ -70,7 +70,7 @@ export class DraftService {
           },
         )
         .then((res) => {
-          result.count = res.affected;
+          result.affected = res.affected;
           res.generatedMaps.forEach(console.log);
         })
         .catch((e) => {
@@ -117,6 +117,30 @@ export class DraftService {
       },
       order: { version: 'DESC' },
     });
+  }
+
+  async delete(request: Request): Promise<Result> {
+    const result = new Result();
+    try {
+      const parameters: byVersion = DraftService.parseParameters(request);
+      await this.draftRepository
+        .delete({
+          user: parameters.user,
+          asGuid: parameters.asGuid,
+          version: parameters.version,
+        })
+        .then((draft) => {
+          result.affected = draft.affected;
+        })
+        .catch((e) => {
+          console.log(e);
+          result.addError('Ошибка удаления', e);
+        });
+    } catch (e) {
+      console.log(e);
+      result.addError('Ошибка удаления', e);
+    }
+    return result;
   }
 
   private static parseParameters(request: Request) {

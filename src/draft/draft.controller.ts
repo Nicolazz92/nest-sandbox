@@ -1,4 +1,4 @@
-import { Controller, Get, Put, Req, Patch } from '@nestjs/common';
+import { Controller, Get, Put, Req, Patch, Delete } from '@nestjs/common';
 import { DraftService } from './draft.service';
 import { DraftEntity } from './draft.entity';
 import { Request } from 'express';
@@ -31,5 +31,10 @@ export class DraftController {
   @Get('last')
   last(@Req() request: Request): Promise<DraftEntity> {
     return this.draftService.last(request);
+  }
+
+  @Delete()
+  delete(@Req() request: Request): Promise<Result> {
+    return this.draftService.delete(request);
   }
 }

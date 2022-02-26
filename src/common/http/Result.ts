@@ -20,7 +20,7 @@ export class Result {
     required: true,
   })
   id: string;
-  count: number;
+  affected: number;
   @ApiProperty({
     required: false,
     type: 'object',
@@ -127,7 +127,7 @@ export class Result {
 
   public setId(value: any, name = 'id') {
     this[name] = value;
-    this.count = 1;
+    this.affected = 1;
     return this;
   }
 }
