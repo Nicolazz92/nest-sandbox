@@ -1,4 +1,4 @@
-import { Controller, Get, Put, Req } from '@nestjs/common';
+import { Controller, Get, Put, Req, Patch } from '@nestjs/common';
 import { DraftService } from './draft.service';
 import { DraftEntity } from './draft.entity';
 import { Request } from 'express';
@@ -16,5 +16,10 @@ export class DraftController {
   @Put()
   put(@Req() request: Request): Promise<Result> {
     return this.draftService.put(request);
+  }
+
+  @Patch()
+  patch(@Req() request: Request): Promise<Result> {
+    return this.draftService.patch(request);
   }
 }

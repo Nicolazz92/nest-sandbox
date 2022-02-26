@@ -4,6 +4,7 @@ import { DraftEntity } from './draft.entity';
 import { Constants } from '../common/constants';
 import { Result } from '../common/http/Result';
 import putSave from 'src/common/http/putSave';
+import patch from 'src/common/http/patch';
 import { Request } from 'express';
 import { instanceToPlain } from 'class-transformer';
 
@@ -51,6 +52,35 @@ export class DraftService {
     } catch (e) {
       console.log(e);
       result.addError('Ошибка сохранения', e);
+    }
+    return instanceToPlain(result) as Result;
+  }
+
+  async patch(request: Request): Promise<Result> {
+    const result = new Result();
+    try {
+      const parameters: patch = DraftService.parseParameters(request);
+      await this.draftRepository
+        .update(
+          {
+            user: parameters.user,
+            asGuid: parameters.asGuid,
+            version: parameters.version,
+          },
+          {
+            date: new Date(),
+          },
+        )
+        .then((res) => {
+          result.count = res.affected;
+          res.generatedMaps.forEach(console.log);
+        })
+        .catch((e) => {
+          console.log(e);
+          result.addError('Ошибка обновления', e);
+        });
+    } catch (e) {
+      console.log(e);
     }
     return instanceToPlain(result) as Result;
   }

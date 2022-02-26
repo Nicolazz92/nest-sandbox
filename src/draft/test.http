@@ -5,7 +5,7 @@ parameters={"asGuid":"12345","user":"Vasya"}
 
 ###
 
-POST http://localhost:3000/draft/update
+PATCH http://localhost:3000/draft
 Content-Type: application/x-www-form-urlencoded
 
 parameters={"asGuid":"12345","user":"Vasya","version":1}

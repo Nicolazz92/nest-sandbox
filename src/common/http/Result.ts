@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
+import { count } from 'rxjs';
 
 export enum MessageType {
   'all' = 'all',
@@ -19,6 +20,7 @@ export class Result {
     required: true,
   })
   id: string;
+  count: number;
   @ApiProperty({
     required: false,
     type: 'object',
@@ -125,6 +127,7 @@ export class Result {
 
   public setId(value: any, name = 'id') {
     this[name] = value;
+    this.count = 1;
     return this;
   }
 }
