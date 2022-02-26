@@ -22,4 +22,9 @@ export class DraftController {
   patch(@Req() request: Request): Promise<Result> {
     return this.draftService.patch(request);
   }
+
+  @Get('versions')
+  versions(@Req() request: Request): Promise<number[]> {
+    return this.draftService.versions(request);
+  }
 }
