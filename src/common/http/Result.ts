@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
 import { count } from 'rxjs';
+import { StreamableFile } from '@nestjs/common';
 
 export enum MessageType {
   'all' = 'all',
@@ -21,6 +22,7 @@ export class Result {
   })
   id: string;
   affected: number;
+  draftData: StreamableFile;
   @ApiProperty({
     required: false,
     type: 'object',

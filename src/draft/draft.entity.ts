@@ -11,6 +11,9 @@ export class DraftEntity {
   @ObjectIdColumn()
   id: ObjectID;
 
+  @Column({ type: 'bytea', nullable: false })
+  draftData: Buffer;
+
   @Column()
   asGuid?: string;
 
