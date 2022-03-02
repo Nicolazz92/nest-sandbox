@@ -10,7 +10,6 @@ import {
   StreamableFile,
 } from '@nestjs/common';
 import { DraftService } from './draft.service';
-import { DraftEntity } from './draft.entity';
 import { Request, Response } from 'express';
 import { Result } from '../common/http/Result';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
