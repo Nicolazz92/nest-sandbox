@@ -74,7 +74,7 @@ export class DraftService {
           {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            draftData = request.body.draft,
+            draftData: request.body.draft,
             date: new Date(),
           },
         )

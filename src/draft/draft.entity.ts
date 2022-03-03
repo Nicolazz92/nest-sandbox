@@ -5,7 +5,6 @@ import {
   ObjectIdColumn,
   VersionColumn,
 } from 'typeorm';
-import { DraftData } from '../common/http/draftData';
 
 @Entity()
 export class DraftEntity {
