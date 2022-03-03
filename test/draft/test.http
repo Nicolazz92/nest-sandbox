@@ -3,25 +3,33 @@ Content-Type: multipart/form-data; boundary=WebAppBoundary
 
 --WebAppBoundary
 Content-Disposition: form-data; name="parameters"
-Content-Type: text/plain
+Content-Type: application/json
 
 {"asGuid":"12345","user":"Vasya"}
 
 --WebAppBoundary
-Content-Disposition: form-data; name="draft"
+Content-Disposition: form-data; name="draft"; filename="gaudi_draw.json"
 Content-Type: application/json
 
 < ./gaudi_draw.json
-
 --WebAppBoundary--
-
 ###
 
 PATCH http://localhost:3000/draft
-Content-Type: application/x-www-form-urlencoded
+Content-Type: multipart/form-data; boundary=WebAppBoundary
 
-parameters={"asGuid":"12345","user":"Vasya","version":1}
+--WebAppBoundary
+Content-Disposition: form-data; name="parameters"
+Content-Type: application/json
 
+{"asGuid":"12345","user":"Vasya","version":1}
+
+--WebAppBoundary
+Content-Disposition: form-data; name="draft"; filename="gaudi_draw.json"
+Content-Type: application/json
+
+< ./gaudi_draw.json
+--WebAppBoundary--
 ###
 
 GET http://localhost:3000/draft/versions

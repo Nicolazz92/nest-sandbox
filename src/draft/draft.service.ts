@@ -38,7 +38,11 @@ export class DraftService {
           draftEntity.date = new Date();
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
-          draftEntity.draftData = request.body.draft;
+          draftEntity.draftData = request.files?.draft?.[0]
+            ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              request.files.draft[0].buffer.toString()
+            : request.body.draft;
           return this.draftRepository
             .save(draftEntity)
             .then((savedDraft) => {
@@ -74,7 +78,11 @@ export class DraftService {
           {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            draftData: request.body.draft,
+            draftData: request.files?.draft?.[0]
+              ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                request.files.draft[0].buffer.toString()
+              : request.body.draft,
             date: new Date(),
           },
         )

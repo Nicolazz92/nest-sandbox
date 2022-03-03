@@ -1,19 +1,30 @@
-import { Controller, Get, Put, Req, Patch, Delete, Res } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Put,
+  Req,
+  Patch,
+  Delete,
+  UseInterceptors,
+} from '@nestjs/common';
 import { DraftService } from './draft.service';
-import { Request, Response } from 'express';
+import { Request } from 'express';
 import { Result } from '../common/http/Result';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
 
 @Controller('draft')
 export class DraftController {
   constructor(private readonly draftService: DraftService) {}
 
   @Put()
+  @UseInterceptors(FileFieldsInterceptor([{ name: 'draft' }]))
   put(@Req() request: Request): Promise<Result> {
     console.log(request);
     return this.draftService.put(request);
   }
 
   @Patch()
+  @UseInterceptors(FileFieldsInterceptor([{ name: 'draft' }]))
   patch(@Req() request: Request): Promise<Result> {
     return this.draftService.patch(request);
   }
