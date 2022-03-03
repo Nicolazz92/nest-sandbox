@@ -8,10 +8,10 @@ Content-Type: text/plain
 {"asGuid":"12345","user":"Vasya"}
 
 --WebAppBoundary
-Content-Disposition: form-data; name="data"; filename="draftData"
+Content-Disposition: form-data; name="draft"
 Content-Type: application/json
 
-< ./draftData
+< ./gaudi_draw.json
 
 --WebAppBoundary--
 

@@ -1,6 +1,6 @@
 interface PutSave {
   asGuid: string;
-  user: number;
+  user: string;
   binaryXml?: number;
   schemaXml?: string;
   binaryYaml?: number;

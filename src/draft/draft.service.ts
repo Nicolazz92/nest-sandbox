@@ -1,4 +1,4 @@
-import { Inject, Injectable, StreamableFile } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { DraftEntity } from './draft.entity';
 import { Constants } from '../common/constants';
@@ -9,7 +9,6 @@ import { Request } from 'express';
 import { instanceToPlain } from 'class-transformer';
 import versions from 'src/common/http/versions';
 import byVersion from 'src/common/http/byVersion';
-import * as fs from 'fs';
 
 @Injectable()
 export class DraftService {
@@ -39,8 +38,7 @@ export class DraftService {
           draftEntity.date = new Date();
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
-          const datum: Express.Multer.File = request.files.data[0];
-          draftEntity.draftData = datum.buffer;
+          draftEntity.draftData = request.body.draft;
           return this.draftRepository
             .save(draftEntity)
             .then((savedDraft) => {
@@ -65,7 +63,7 @@ export class DraftService {
       const parameters: patch = DraftService.parseParameters(request);
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      const datum: Express.Multer.File = request.files.data[0];
+      // const datum: DraftData = request.files.data[0];
       await this.draftRepository
         .update(
           {
@@ -74,7 +72,9 @@ export class DraftService {
             version: parameters.version,
           },
           {
-            draftData: datum.buffer,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            draftData = request.body.draft,
             date: new Date(),
           },
         )
@@ -106,9 +106,9 @@ export class DraftService {
       .then((draftEntity) => draftEntity.map((de) => de.version));
   }
 
-  async byVersion(request: Request): Promise<StreamableFile> {
+  async byVersion(request: Request): Promise<Record<string, string>> {
     const parameters: byVersion = DraftService.parseParameters(request);
-    return await this.draftRepository
+    return this.draftRepository
       .findOne({
         where: {
           user: parameters.user,
@@ -117,15 +117,13 @@ export class DraftService {
         },
       })
       .then((draftEntity) => {
-        const draftData = draftEntity.draftData;
-        console.log(`draftData=${draftData}`);
-        return new StreamableFile(draftData);
+        return JSON.parse(draftEntity.draftData);
       });
   }
 
-  async last(request: Request): Promise<StreamableFile> {
+  async last(request: Request): Promise<Record<string, string>> {
     const parameters: versions = DraftService.parseParameters(request);
-    return await this.draftRepository
+    return this.draftRepository
       .findOne({
         where: {
           user: parameters.user,
@@ -134,9 +132,7 @@ export class DraftService {
         order: { version: 'DESC' },
       })
       .then((draftEntity) => {
-        const draftData = draftEntity.draftData;
-        console.log(`draftData=${draftData}`);
-        return new StreamableFile(draftData);
+        return JSON.parse(draftEntity.draftData);
       });
   }
 
@@ -165,7 +161,7 @@ export class DraftService {
   }
 
   private static parseParameters(request: Request) {
-    // console.log(`parameterStr=${parameterStr}`);
+    console.log(`parameters=${request.body.parameters}`);
     return JSON.parse(request.body.parameters);
   }
 }

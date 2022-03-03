@@ -5,24 +5,25 @@ import {
   ObjectIdColumn,
   VersionColumn,
 } from 'typeorm';
+import { DraftData } from '../common/http/draftData';
 
 @Entity()
 export class DraftEntity {
   @ObjectIdColumn()
   id: ObjectID;
 
-  @Column({ type: 'bytea', nullable: false })
-  draftData: Buffer;
+  @Column({ type: 'jsonb', nullable: false })
+  draftData: string;
 
-  @Column()
+  @Column({ nullable: false })
   asGuid?: string;
 
-  @VersionColumn()
+  @VersionColumn({ nullable: false })
   version: number;
 
-  @Column()
-  user: number;
+  @Column({ nullable: false })
+  user: string;
 
-  @Column({ type: 'datetime' })
+  @Column({ type: 'datetime', nullable: false })
   date: Date;
 }

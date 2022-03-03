@@ -1,6 +1,6 @@
 interface ByVersion {
   asGuid: string;
-  user: number;
+  user: string;
   version: number;
 }
 

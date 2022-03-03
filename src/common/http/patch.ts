@@ -1,6 +1,6 @@
 interface Patch {
   asGuid: string;
-  user: number;
+  user: string;
   version: number;
   binaryXml?: number;
   schemaXml?: string;
